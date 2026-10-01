@@ -1,0 +1,13 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "dev", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 3000 },
+    {
+      "name": "preview-pages",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/serve-out.mjs"],
+      "port": 4173,
+      "env": { "NEXT_PUBLIC_BASE_PATH": "/INRITA-PORTFOLIO" }
+    }
+  ]
+}
