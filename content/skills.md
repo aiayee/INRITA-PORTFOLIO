@@ -23,5 +23,10 @@ categories:
     items:
       - { name: Git, icon: git }
       - { name: Docker, icon: docker }
+  - name: Soft Skills
+    items:
+      - { name: "TODO: Soft skill 1" }
+      - { name: "TODO: Soft skill 2" }
+      - { name: "TODO: Soft skill 3" }
 ---
 TODO: replace the example skills above with the real ones.

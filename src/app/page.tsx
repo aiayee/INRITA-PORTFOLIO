@@ -25,16 +25,15 @@ export default function HomePage() {
   const certificates = getCertificates();
 
   const visible = homeSections({ hasCertificates: certificates.length > 0 });
-  const index = (id: SectionId) => String(visible.findIndex((s) => s.id === id) + 1).padStart(2, "0");
 
   const render: Record<SectionId, () => React.ReactNode> = {
-    about: () => <About profile={profile} index={index("about")} />,
-    experience: () => <ExperienceSection items={getExperience()} projects={projects} index={index("experience")} />,
-    projects: () => <ProjectsSection projects={projects} index={index("projects")} />,
-    skills: () => <SkillsSection categories={getSkills()} index={index("skills")} />,
-    education: () => <EducationSection items={getEducation()} index={index("education")} />,
-    certificates: () => <CertificatesSection items={certificates} index={index("certificates")} />,
-    contact: () => <ContactSection contact={getContact()} index={index("contact")} />,
+    about: () => <About profile={profile} />,
+    experience: () => <ExperienceSection items={getExperience()} projects={projects} />,
+    projects: () => <ProjectsSection projects={projects} />,
+    skills: () => <SkillsSection categories={getSkills()} />,
+    education: () => <EducationSection items={getEducation()} />,
+    certificates: () => <CertificatesSection items={certificates} />,
+    contact: () => <ContactSection contact={getContact()} />,
   };
 
   return (

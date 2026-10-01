@@ -10,6 +10,7 @@ import type {
 } from "@/lib/content";
 import { asset } from "@/lib/paths";
 import { CopyButton } from "./CopyButton";
+import { ProjectCover } from "./ProjectCover";
 import { SkillIcon } from "./SkillIcon";
 import { Section, TagList, buttonStyles, durationLabel, formatYearMonth } from "./ui";
 
@@ -70,9 +71,9 @@ export function Hero({ profile }: { profile: Profile }) {
 /* About                                                               */
 /* ------------------------------------------------------------------ */
 
-export function About({ profile, index }: { profile: Profile; index: string }) {
+export function About({ profile }: { profile: Profile }) {
   return (
-    <Section id="about" index={index} title="About Me">
+    <Section id="about" title="About Me">
       <div className="prose-content max-w-3xl text-base sm:text-lg" dangerouslySetInnerHTML={{ __html: profile.aboutHtml }} />
     </Section>
   );
@@ -92,15 +93,13 @@ const EXPERIENCE_TYPE: Record<Experience["type"], string> = {
 export function ExperienceSection({
   items,
   projects,
-  index,
 }: {
   items: Experience[];
   projects: Project[];
-  index: string;
 }) {
   const titleOf = new Map(projects.map((p) => [p.slug, p.title]));
   return (
-    <Section id="experience" index={index} title="Experience" className="bg-surface">
+    <Section id="experience" title="Experience" className="bg-surface">
       <ol className="relative max-w-3xl border-l-2 border-border pl-6 sm:pl-8">
         {items.map((exp) => (
           <li key={exp.id} className="relative pb-12 last:pb-0">
@@ -150,9 +149,9 @@ export const PROJECT_TYPE: Record<Project["type"], string> = {
   side: "Side Project",
 };
 
-export function ProjectsSection({ projects, index }: { projects: Project[]; index: string }) {
+export function ProjectsSection({ projects }: { projects: Project[] }) {
   return (
-    <Section id="projects" index={index} title="Projects">
+    <Section id="projects" title="Projects">
       <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((p) => (
           <li key={p.slug}>
@@ -160,18 +159,27 @@ export function ProjectsSection({ projects, index }: { projects: Project[]; inde
               href={`/projects/${p.slug}/`}
               className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-bg transition-all hover:-translate-y-0.5 hover:border-accent hover:shadow-lg hover:shadow-accent/10"
             >
-              {p.cover && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={asset(p.cover)}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  width={640}
-                  height={360}
-                  className="aspect-video w-full border-b border-border bg-surface object-cover"
-                />
-              )}
+              <div className="aspect-video overflow-hidden border-b border-border bg-surface">
+                {p.cover || p.images[0] ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={asset(p.cover ?? p.images[0].src)}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    width={640}
+                    height={360}
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <ProjectCover
+                    slug={p.slug}
+                    stack={p.stack}
+                    label={p.title}
+                    className="size-full transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                )}
+              </div>
               <div className="flex flex-1 flex-col p-5">
                 <p className="flex items-center justify-between gap-2 font-mono text-xs text-muted">
                   <span className="text-accent">{PROJECT_TYPE[p.type]}</span>
@@ -198,9 +206,9 @@ export function ProjectsSection({ projects, index }: { projects: Project[]; inde
 /* Skills                                                              */
 /* ------------------------------------------------------------------ */
 
-export function SkillsSection({ categories, index }: { categories: SkillCategory[]; index: string }) {
+export function SkillsSection({ categories }: { categories: SkillCategory[] }) {
   return (
-    <Section id="skills" index={index} title="Skills & Tech Stack" className="bg-surface">
+    <Section id="skills" title="Skills & Tech Stack" className="bg-surface">
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((cat) => (
           <div key={cat.name} className="rounded-xl border border-border bg-bg p-5">
@@ -227,9 +235,9 @@ export function SkillsSection({ categories, index }: { categories: SkillCategory
 /* Education                                                           */
 /* ------------------------------------------------------------------ */
 
-export function EducationSection({ items, index }: { items: Education[]; index: string }) {
+export function EducationSection({ items }: { items: Education[] }) {
   return (
-    <Section id="education" index={index} title="Education">
+    <Section id="education" title="Education">
       <ul className="grid max-w-3xl gap-5">
         {items.map((ed) => (
           <li key={ed.id} className="rounded-xl border border-border p-6">
@@ -252,9 +260,9 @@ export function EducationSection({ items, index }: { items: Education[]; index: 
 /* Certificates (only rendered when at least one exists)               */
 /* ------------------------------------------------------------------ */
 
-export function CertificatesSection({ items, index }: { items: Certificate[]; index: string }) {
+export function CertificatesSection({ items }: { items: Certificate[] }) {
   return (
-    <Section id="certificates" index={index} title="Certificates" className="bg-surface">
+    <Section id="certificates" title="Certificates" className="bg-surface">
       <ul className="grid gap-4 sm:grid-cols-2">
         {items.map((c) => (
           <li key={c.id} className="flex flex-col rounded-xl border border-border bg-bg p-5">
@@ -278,7 +286,7 @@ export function CertificatesSection({ items, index }: { items: Certificate[]; in
 /* Contact                                                             */
 /* ------------------------------------------------------------------ */
 
-export function ContactSection({ contact, index }: { contact: Contact; index: string }) {
+export function ContactSection({ contact }: { contact: Contact }) {
   const rows: { label: string; value: string; href?: string; copy?: boolean }[] = [
     { label: "Email", value: contact.email, href: `mailto:${contact.email}`, copy: true },
     { label: "Phone", value: contact.phone, href: `tel:${contact.phone.replace(/[^\d+]/g, "")}`, copy: true },
@@ -289,7 +297,7 @@ export function ContactSection({ contact, index }: { contact: Contact; index: st
   ];
 
   return (
-    <Section id="contact" index={index} title="Contact">
+    <Section id="contact" title="Contact">
       <p className="max-w-2xl text-lg text-muted">
         Feel free to get in touch — email is the fastest way to reach me.
       </p>

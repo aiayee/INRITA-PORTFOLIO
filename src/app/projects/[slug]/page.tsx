@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PROJECT_TYPE } from "@/components/sections";
+import { ProjectCover } from "@/components/ProjectCover";
 import { TagList, buttonStyles } from "@/components/ui";
 import { getProject, getProjects } from "@/lib/content";
 import { asset } from "@/lib/paths";
@@ -62,18 +63,54 @@ export default async function CaseStudyPage({ params }: Props) {
         )}
       </header>
 
-      {project.cover && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={asset(project.cover)}
-          alt={`${project.title} cover`}
-          width={1280}
-          height={720}
-          className="mt-8 aspect-video w-full rounded-xl border border-border bg-surface object-cover"
-        />
-      )}
+      <div className="mt-8 aspect-video overflow-hidden rounded-xl border border-border bg-surface">
+        {project.cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={asset(project.cover)}
+            alt={`${project.title} cover`}
+            width={1280}
+            height={720}
+            className="size-full object-cover"
+          />
+        ) : (
+          <ProjectCover slug={project.slug} stack={project.stack} label={project.title} className="size-full" />
+        )}
+      </div>
 
       <div className="prose-content mt-10 text-base sm:text-[1.0625rem]" dangerouslySetInnerHTML={{ __html: project.bodyHtml }} />
+
+      {project.images.length > 0 && (
+        <section aria-labelledby="gallery-title" className="mt-14">
+          <h2 id="gallery-title" className="text-[1.375rem] font-bold tracking-tight">
+            <span className="font-mono font-medium text-accent">## </span>Gallery
+          </h2>
+          <ul className="mt-6 grid gap-5 sm:grid-cols-2">
+            {project.images.map((img, n) => (
+              <li key={img.src} className={project.images.length % 2 === 1 && n === 0 ? "sm:col-span-2" : ""}>
+                <figure>
+                  <a
+                    href={asset(img.src)}
+                    target="_blank"
+                    rel="noopener"
+                    className="block overflow-hidden rounded-xl border border-border bg-surface"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={asset(img.src)}
+                      alt={img.alt}
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-video w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                    />
+                  </a>
+                  {img.caption && <figcaption className="mt-2 text-sm text-muted">{img.caption}</figcaption>}
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <nav aria-label="More projects" className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
         {prev ? (

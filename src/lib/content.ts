@@ -91,7 +91,18 @@ const projectSchema = z.object({
   period: text,
   stack,
   order: z.number().int(),
+  // Card + case-study header image. Without it the card uses the first gallery
+  // image, and otherwise a generated cover (see ProjectCover).
   cover: publicFile.optional(),
+  images: z
+    .array(
+      z.object({
+        src: publicFile,
+        alt: text, // describes the image for screen readers
+        caption: z.string().optional(),
+      }),
+    )
+    .default([]),
   slidesPdf: publicFile.endsWith(".pdf", "must be a .pdf file").optional(),
   github: z.url().optional(),
 });
@@ -214,7 +225,12 @@ export function getProjects(): Project[] {
         missing.map((s) => `body is missing the section heading "## ${s}"`),
       );
     }
-    assertPublicFiles(file, [project.cover, project.slidesPdf, ...localLinks(content)]);
+    assertPublicFiles(file, [
+      project.cover,
+      project.slidesPdf,
+      ...project.images.map((i) => i.src),
+      ...localLinks(content),
+    ]);
 
     return {
       ...project,

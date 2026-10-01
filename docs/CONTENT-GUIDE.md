@@ -16,7 +16,7 @@
 | `public/images/` | ใส่รูปโปรไฟล์จริง (สี่เหลี่ยมจัตุรัส ≥ 400×400) แล้วแก้ `photo:` ใน profile.md |
 | `public/resume.pdf` | แทนด้วย Resume ภาษาอังกฤษตัวจริง (ใช้ชื่อไฟล์เดิม) |
 | `content/contact.md` | Email, เบอร์, LINE, LinkedIn, GitHub ⚠️ ข้อมูลนี้เป็น Public |
-| `content/skills.md` | Skill จริง |
+| `content/skills.md` | Skill จริง รวมหมวด **Soft Skills** ท้ายไฟล์ |
 | `content/experience/*.md` | ตำแหน่ง, ช่วงเวลา, หน้าที่หลัก, Tech Stack |
 | `content/education/bachelor.md` | มหาวิทยาลัย, คณะ, สาขา, ปีที่จบ, GPA |
 | `content/projects/work-project-1.md` | Case Study งานจากที่ทำงาน |
@@ -30,8 +30,11 @@
    - `order` คือลำดับการแสดง และห้ามซ้ำกับโปรเจกต์อื่น
 3. เขียนเนื้อหาใต้หัวข้อทั้ง 5 หัวข้อ (ต้องมีครบ):
    `## Business Context`, `## My Role`, `## Approach`, `## Results`, `## Lessons Learned`
-4. ใส่ภาพที่ `public/images/projects/<ชื่อโปรเจกต์>/` และอ้างอิงในเนื้อหาด้วย
-   `![คำอธิบายภาพ](/images/projects/<ชื่อโปรเจกต์>/ภาพ.png)`
+4. ใส่ภาพที่ `public/images/projects/<ชื่อโปรเจกต์>/` ได้ 3 แบบ:
+   - **ภาพปก** `cover:` แสดงบน Card และหัวหน้า Case Study ถ้าไม่ใส่ ระบบจะสร้างภาพปกจาก Tech Stack ให้อัตโนมัติ
+   - **Gallery** `images:` ใส่ได้หลายรูป แต่ละรูปต้องมี `alt` (คำอธิบายภาพ) และใส่ `caption` เพิ่มได้ แสดงท้าย Case Study
+   - **ภาพในเนื้อหา** `![คำอธิบายภาพ](/images/projects/<ชื่อโปรเจกต์>/ภาพ.png)`
+   - แนะนำภาพแนวนอนอัตราส่วน 16:9 (เช่น 1600×900) และบีบอัดให้ไม่เกิน ~300 KB ต่อรูป
 
 **กติกางานจากที่ทำงาน (ตามที่ตกลงกันไว้):** ห้ามใส่ชื่อบริษัท, Architecture Diagram และตัวเลขผลลัพธ์
 
