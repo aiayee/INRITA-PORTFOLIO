@@ -1,6 +1,7 @@
 ---
 role: "Data Engineer (Internship)"
 companyDescriptor: "Siam Piwat Co., Ltd."
+logo: "/images/logos/siam-piwat.webp"
 type: internship
 start: "2025-01"
 end: "2025-06"

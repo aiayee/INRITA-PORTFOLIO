@@ -1,6 +1,7 @@
 ---
 role: "Data Engineer (Outsourced)"
 companyDescriptor: "Siam Piwat Co., Ltd."
+logo: "/images/logos/siam-piwat.webp"
 type: contract
 start: "2025-07"
 end: "present"

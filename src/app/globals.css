@@ -4,32 +4,41 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg: #ffffff;
-  --surface: #f7f6fb;
-  --fg: #18161f;
-  --muted: #55526a;
-  --border: #e5e3ee;
+  --bg: #faf8ff;
+  --surface: #ffffff;
+  --surface-2: #f4f0ff;
+  --fg: #1c1530;
+  --muted: #5f587a;
+  --border: #e7e1f7;
   --accent: #6d28d9;       /* violet-700: 7:1 contrast on white */
   --accent-fg: #ffffff;
-  --accent-soft: #f1ecff;
+  --accent-soft: #efe9ff;
   --accent-soft-fg: #5b21b6;
+  --glow-a: rgba(124, 58, 237, 0.14);
+  --glow-b: rgba(13, 148, 136, 0.10);
+  --glow-c: rgba(192, 38, 211, 0.10);
 }
 
 .dark {
-  --bg: #0d0b13;
-  --surface: #16131f;
-  --fg: #ecebf2;
-  --muted: #a5a2b8;
-  --border: #2a2638;
+  --bg: #0c0a14;
+  --surface: #151221;
+  --surface-2: #1b1729;
+  --fg: #f3f0fa;
+  --muted: #a39dbb;
+  --border: #272038;
   --accent: #a78bfa;       /* violet-400 */
-  --accent-fg: #0d0b13;
-  --accent-soft: #221a36;
-  --accent-soft-fg: #c4b5fd;
+  --accent-fg: #150d2b;
+  --accent-soft: #221b38;
+  --accent-soft-fg: #d6c9ff;
+  --glow-a: rgba(124, 58, 237, 0.30);
+  --glow-b: rgba(13, 148, 136, 0.22);
+  --glow-c: rgba(192, 38, 211, 0.20);
 }
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
   --color-border: var(--border);
@@ -38,11 +47,12 @@
   --color-accent-soft: var(--accent-soft);
   --color-accent-soft-fg: var(--accent-soft-fg);
 
-  --font-sans: var(--font-inter), var(--font-plex-thai), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), var(--font-plex-thai), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
 }
 
 html {
+
   scroll-behavior: smooth;
   scroll-padding-top: 5rem; /* keep section headings clear of the sticky navbar */
   color-scheme: light;
@@ -135,3 +145,124 @@ body {
 }
 .prose-content table { width: 100%; border-collapse: collapse; display: block; overflow-x: auto; }
 .prose-content th, .prose-content td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+
+/* ------------------------------------------------------------------ */
+/* Motion                                                              */
+/* ------------------------------------------------------------------ */
+
+/* Scroll reveal — only when JS is running (html.js), see RevealObserver. */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero: staggered entrance + slow floating glow */
+.hero-in { animation-delay: var(--reveal-delay, 0ms); }
+@keyframes float-glow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-24px, 18px) scale(1.08); }
+}
+.hero-glow { animation: float-glow 12s ease-in-out infinite; }
+
+/* "Data flowing" along the pipeline on generated project covers */
+@keyframes dash-flow { to { stroke-dashoffset: -32; } }
+.flow-line { animation: dash-flow 1.6s linear infinite; }
+
+
+/* Experience: animated <details> chevron + smooth open where supported */
+details > summary { list-style: none; cursor: pointer; }
+details > summary::-webkit-details-marker { display: none; }
+details[open] .chevron { transform: rotate(180deg); }
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 0.35s ease, content-visibility 0.35s allow-discrete;
+  }
+  details[open]::details-content { block-size: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] { opacity: 1; transform: none; }
+  .flow-dot { display: none; }
+}
+
+/* ------------------------------------------------------------------ */
+/* Change Request #5 — hero, about badge, timeline                     */
+/* ------------------------------------------------------------------ */
+
+/* Typed role: blinking caret + accent underline */
+.typer-caret {
+  display: inline-block;
+  width: 3px;
+  height: 0.9em;
+  margin-left: 4px;
+  vertical-align: -0.08em;
+  background: var(--accent);
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+.role-underline {
+  background: linear-gradient(90deg, var(--accent), transparent) 0 100% / 100% 3px no-repeat;
+  padding-bottom: 6px;
+}
+
+/* Hero profile card: slow float, lifts on hover */
+@keyframes card-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+.profile-card { animation: card-float 7s ease-in-out infinite; transition: box-shadow 0.4s; }
+.profile-card:hover { animation-play-state: paused; box-shadow: 0 40px 90px -30px var(--accent); }
+
+/* About: hanging ID badge swings gently from its lanyard */
+@keyframes badge-swing {
+  0%, 100% { transform: rotate(2.5deg); }
+  50% { transform: rotate(-2.5deg); }
+}
+.badge-swing { transform-origin: 50% 0; animation: badge-swing 5s ease-in-out infinite; }
+
+/* Experience timeline: gradient rail that draws itself in */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 2rem;
+  bottom: 2rem;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(var(--accent), #22d3ee);
+  transform-origin: top;
+  animation: rail 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+}
+@media (min-width: 640px) { .timeline::before { left: 11px; } }
+@keyframes rail { from { transform: scaleY(0); } }
+
+/* Diamond bullets for experience / case-study lists */
+.xp-bullets ul { list-style: none; padding-left: 0; }
+.xp-bullets li { position: relative; padding-left: 1.6rem; }
+.xp-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0.2rem;
+  top: 0.62em;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+/* Experience "View details": rows grow open (0fr → 1fr); collapsed only with JS */
+.xp-more { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+html.js .xp-more:not(.is-open) { grid-template-rows: 0fr; }
+html:not(.js) .xp-toggle { display: none; }

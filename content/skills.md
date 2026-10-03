@@ -26,7 +26,7 @@ categories:
       - { name: Pipeline Monitoring }
   - name: Cloud & DevOps
     items:
-      - { name: Huawei Cloud (ECS, CCE, OBS) }
+      - { name: "Huawei Cloud (ECS, CCE, OBS)" }
       - { name: Docker, icon: docker }
       - { name: Jenkins, icon: jenkins }
       - { name: GitLab CI/CD, icon: gitlab }
@@ -41,5 +41,12 @@ categories:
       - { name: GitHub Copilot, icon: githubcopilot }
       - { name: ChatGPT, icon: openai }
       - { name: Claude, icon: anthropic }
-      - { name: Technical Communication & Problem-solving }
+# Soft skills shown as their own section (plain text, one per line)
+softSkills:
+  - "Technical communication"
+  - "Problem-solving & incident resolution"
+  - "Cross-team collaboration"
+  - "Requirement gathering with stakeholders"
+  - "Technical documentation"
+  - "Agile / Scrum"
 ---

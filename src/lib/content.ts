@@ -35,6 +35,15 @@ const profileSchema = z.object({
   tagline: text,
   photo: publicFile,
   resume: publicFile.endsWith(".pdf", "must be a .pdf file"),
+  // Rotated one after another under the name in the hero
+  roles: z.array(text).default([]),
+  // Optional one-line quote shown under "About Me"
+  quote: z.string().optional(),
+  // Highlight numbers in the About card (experience years are added automatically)
+  stats: z
+    .array(z.object({ value: text, label: text, note: z.string().optional() }))
+    .max(4, "at most 4 stats")
+    .default([]),
 });
 
 const contactSchema = z.object({
@@ -47,6 +56,7 @@ const contactSchema = z.object({
 });
 
 const skillsSchema = z.object({
+  softSkills: z.array(text).default([]),
   categories: z
     .array(
       z.object({
@@ -68,6 +78,7 @@ const skillsSchema = z.object({
 const experienceSchema = z.object({
   role: text,
   companyDescriptor: z.string().optional(),
+  logo: publicFile.optional(), // e.g. /images/logos/company.png — initials shown when missing
   type: z.enum(["internship", "contract", "full-time", "part-time"]),
   start: yearMonth,
   end: z.union([yearMonth, z.literal("present")]),
@@ -76,6 +87,7 @@ const experienceSchema = z.object({
 });
 
 const educationSchema = z.object({
+  logo: publicFile.optional(),
   degree: text,
   university: text,
   faculty: text,
@@ -180,9 +192,22 @@ function listMarkdown(dir: string): string[] {
 export type Profile = z.infer<typeof profileSchema> & { aboutHtml: string };
 export type Contact = z.infer<typeof contactSchema>;
 export type SkillCategory = z.infer<typeof skillsSchema>["categories"][number];
-export type Experience = z.infer<typeof experienceSchema> & { id: string; bodyHtml: string };
+export type CaseSection = { title: string; html: string };
+export type Experience = z.infer<typeof experienceSchema> & {
+  id: string;
+  bodyHtml: string;
+  /** First bullets, always visible on the card */
+  highlightsHtml: string;
+  /** Remaining bullets / text, shown behind "View details" */
+  moreHtml: string;
+};
 export type Education = z.infer<typeof educationSchema> & { id: string };
-export type Project = z.infer<typeof projectSchema> & { slug: string; bodyHtml: string };
+export type Project = z.infer<typeof projectSchema> & {
+  slug: string;
+  bodyHtml: string;
+  /** Body split at each "## " heading */
+  sections: CaseSection[];
+};
 export type Certificate = z.infer<typeof certificateSchema> & { id: string };
 
 export const CASE_STUDY_SECTIONS = [
@@ -212,6 +237,36 @@ export function getSkills(): SkillCategory[] {
   return parse(skillsSchema, file, readFile(file).data).categories;
 }
 
+export function getSoftSkills(): string[] {
+  const file = path.join(CONTENT_DIR, "skills.md");
+  return parse(skillsSchema, file, readFile(file).data).softSkills;
+}
+
+const VISIBLE_BULLETS = 3;
+
+/** Splits a Markdown list into the first few bullets and the rest. */
+function splitBullets(markdown: string): { highlights: string; more: string } {
+  const blocks = markdown.trim().split(/\r?\n(?=[-*] )/);
+  const bullets = blocks.filter((b) => /^[-*] /.test(b));
+  if (bullets.length !== blocks.length) return { highlights: markdown, more: "" };
+  return {
+    highlights: bullets.slice(0, VISIBLE_BULLETS).join("\n"),
+    more: bullets.slice(VISIBLE_BULLETS).join("\n"),
+  };
+}
+
+function splitSections(markdown: string): CaseSection[] {
+  return markdown
+    .split(/^##\s+/m)
+    .slice(1)
+    .map((chunk) => {
+      const nl = chunk.indexOf("\n");
+      const title = (nl === -1 ? chunk : chunk.slice(0, nl)).trim();
+      const body = nl === -1 ? "" : chunk.slice(nl + 1);
+      return { title, html: renderMarkdown(body) };
+    });
+}
+
 export function getProjects(): Project[] {
   const projects = listMarkdown("projects").map((file) => {
     const { data, content } = readFile(file);
@@ -236,6 +291,7 @@ export function getProjects(): Project[] {
       ...project,
       slug: path.basename(file, ".md"),
       bodyHtml: renderMarkdown(content),
+      sections: splitSections(content),
     };
   });
 
@@ -262,6 +318,7 @@ export function getExperience(): Experience[] {
     .map((file) => {
       const { data, content } = readFile(file);
       const exp = parse(experienceSchema, file, data);
+      assertPublicFiles(file, [exp.logo]);
       const unknown = exp.relatedProjects.filter((s) => !slugs.has(s));
       if (unknown.length) {
         throw new ContentError(
@@ -269,17 +326,25 @@ export function getExperience(): Experience[] {
           unknown.map((s) => `relatedProjects: no project file content/projects/${s}.md`),
         );
       }
-      return { ...exp, id: path.basename(file, ".md"), bodyHtml: renderMarkdown(content) };
+      const { highlights, more } = splitBullets(content);
+      return {
+        ...exp,
+        id: path.basename(file, ".md"),
+        bodyHtml: renderMarkdown(content),
+        highlightsHtml: renderMarkdown(highlights),
+        moreHtml: more.trim() ? renderMarkdown(more) : "",
+      };
     })
     .sort((a, b) => b.start.localeCompare(a.start)); // newest first
 }
 
 export function getEducation(): Education[] {
   return listMarkdown("education")
-    .map((file) => ({
-      ...parse(educationSchema, file, readFile(file).data),
-      id: path.basename(file, ".md"),
-    }))
+    .map((file) => {
+      const ed = parse(educationSchema, file, readFile(file).data);
+      assertPublicFiles(file, [ed.logo]);
+      return { ...ed, id: path.basename(file, ".md") };
+    })
     .sort((a, b) => b.graduationYear - a.graduationYear);
 }
 

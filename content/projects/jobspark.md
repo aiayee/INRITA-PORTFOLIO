@@ -2,7 +2,7 @@
 title: "JobSpark — Online Job Search Platform for University Students"
 summary: "Capstone project involving relational database design (15 normalized tables), agile product backlog management, and 197 QA test cases."
 type: academic
-period: "Aug 2024 – Jun 2025"
+period: "2025 – 2026"
 stack: [MySQL, Go, Flutter, Next.js]
 order: 2
 ---

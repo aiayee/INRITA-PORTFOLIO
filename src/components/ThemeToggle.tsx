@@ -5,18 +5,10 @@ import { useEffect, useState } from "react";
 export function ThemeToggle() {
   const [dark, setDark] = useState<boolean | null>(null);
 
+  // Dark is the default theme (set before paint in layout.tsx); this only
+  // mirrors it so the button label is right.
   useEffect(() => {
     setDark(document.documentElement.classList.contains("dark"));
-
-    // Follow the device setting until the visitor picks a theme themselves.
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (e: MediaQueryListEvent) => {
-      if (readStored()) return;
-      document.documentElement.classList.toggle("dark", e.matches);
-      setDark(e.matches);
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
   }, []);
 
   function toggle() {
@@ -47,12 +39,4 @@ export function ThemeToggle() {
       </svg>
     </button>
   );
-}
-
-function readStored(): string | null {
-  try {
-    return localStorage.getItem("theme");
-  } catch {
-    return null;
-  }
 }

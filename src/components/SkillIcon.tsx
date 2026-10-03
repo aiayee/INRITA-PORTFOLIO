@@ -13,10 +13,20 @@ function normalize(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]/g, "");
 }
 
+// Common names that differ from the simple-icons title.
+const ALIASES: Record<string, string> = {
+  pyspark: "apachespark",
+  apachesparkpyspark: "apachespark",
+  huaweicloud: "huawei",
+  superset: "apachesuperset",
+  airflow: "apacheairflow",
+};
+
 /** Finds an icon by slug ("apacheairflow") or display name ("Apache Airflow", "BigQuery"). */
 export function findIcon(nameOrSlug?: string): SimpleIcon | undefined {
   if (!nameOrSlug) return undefined;
-  const key = normalize(nameOrSlug);
+  const raw = normalize(nameOrSlug);
+  const key = ALIASES[raw] ?? raw;
   if (!key) return undefined;
   return (
     bySlug.get(nameOrSlug) ??

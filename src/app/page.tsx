@@ -2,7 +2,6 @@ import {
   About,
   CertificatesSection,
   ContactSection,
-  EducationSection,
   ExperienceSection,
   Hero,
   ProjectsSection,
@@ -16,32 +15,26 @@ import {
   getProfile,
   getProjects,
   getSkills,
+  getSoftSkills,
 } from "@/lib/content";
-import { homeSections, type SectionId } from "@/lib/sections";
 
+// Order follows src/lib/sections.ts (Change Request #5).
 export default function HomePage() {
   const profile = getProfile();
+  const contact = getContact();
   const projects = getProjects();
+  const experience = getExperience();
   const certificates = getCertificates();
-
-  const visible = homeSections({ hasCertificates: certificates.length > 0 });
-
-  const render: Record<SectionId, () => React.ReactNode> = {
-    about: () => <About profile={profile} />,
-    experience: () => <ExperienceSection items={getExperience()} projects={projects} />,
-    projects: () => <ProjectsSection projects={projects} />,
-    skills: () => <SkillsSection categories={getSkills()} />,
-    education: () => <EducationSection items={getEducation()} />,
-    certificates: () => <CertificatesSection items={certificates} />,
-    contact: () => <ContactSection contact={getContact()} />,
-  };
 
   return (
     <>
-      <Hero profile={profile} />
-      {visible.map((s) => (
-        <div key={s.id}>{render[s.id]()}</div>
-      ))}
+      <Hero profile={profile} contact={contact} />
+      <About profile={profile} experience={experience} education={getEducation()[0]} />
+      <ExperienceSection items={experience} projects={projects} />
+      <ProjectsSection projects={projects} />
+      <SkillsSection categories={getSkills()} softSkills={getSoftSkills()} />
+      {certificates.length > 0 && <CertificatesSection items={certificates} />}
+      <ContactSection contact={contact} />
     </>
   );
 }

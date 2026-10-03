@@ -52,16 +52,15 @@ export function ProjectCover({
       {points.slice(1).map((p, i) => {
         const a = points[i];
         const mid = (a.x + p.x) / 2;
+        const d = `M${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${p.y}, ${p.x} ${p.y}`;
         return (
-          <path
-            key={p.name}
-            d={`M${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${p.y}, ${p.x} ${p.y}`}
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth="3"
-            strokeDasharray="8 8"
-            opacity="0.6"
-          />
+          <g key={p.name}>
+            <path className="flow-line" d={d} fill="none" stroke="var(--accent)" strokeWidth="3" strokeDasharray="8 8" opacity="0.6" />
+            {/* a "record" travelling down the pipeline */}
+            <circle className="flow-dot" r="6" fill="var(--accent)">
+              <animateMotion dur="2.4s" begin={`-${i * 0.8}s`} repeatCount="indefinite" path={d} />
+            </circle>
+          </g>
         );
       })}
 

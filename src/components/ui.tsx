@@ -1,26 +1,11 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
-export function Section({
-  id,
-  title,
-  children,
-  className = "",
-}: {
-  id: string;
-  title: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <section id={id} aria-labelledby={`${id}-title`} className={`py-16 sm:py-20 ${className}`}>
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <h2 id={`${id}-title`} className="mb-10 text-2xl font-bold tracking-tight sm:text-3xl">
-          {title}
-        </h2>
-        {children}
-      </div>
-    </section>
-  );
+/** Spread onto an element to fade it in on scroll; `step` staggers siblings. */
+export function reveal(step = 0) {
+  return {
+    "data-reveal": "",
+    style: { "--reveal-delay": `${Math.min(step, 8) * 80}ms` } as CSSProperties,
+  };
 }
 
 export function Tag({ children }: { children: ReactNode }) {
@@ -44,11 +29,11 @@ export function TagList({ items, label }: { items: string[]; label: string }) {
 }
 
 const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition-colors min-h-11";
+  "inline-flex items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-all duration-200 ease-out min-h-12";
 
 export const buttonStyles = {
-  primary: `${buttonBase} bg-accent text-accent-fg hover:opacity-90`,
-  secondary: `${buttonBase} border border-border text-fg hover:border-accent hover:text-accent`,
+  primary: `${buttonBase} bg-accent text-accent-fg hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-12px_var(--accent)]`,
+  secondary: `${buttonBase} border border-border text-fg hover:-translate-y-0.5 hover:border-accent hover:text-accent`,
 };
 
 export function formatYearMonth(value: string): string {
