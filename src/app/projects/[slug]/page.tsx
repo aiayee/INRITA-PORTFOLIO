@@ -79,7 +79,7 @@ export default async function CaseStudyPage({ params }: Props) {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
           {/* left: intro */}
-          <div className="hero-in">
+          <div className="hero-in min-w-0">
             <p className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted sm:text-sm">
               <span className="rounded-full bg-accent-soft px-3 py-1 text-accent-soft-fg">{PROJECT_TYPE[project.type]}</span>
               <span>{project.period}</span>
@@ -150,7 +150,7 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
 
           {/* right: slides */}
-          <div className="hero-in [--reveal-delay:150ms]">
+          <div className="hero-in min-w-0 [--reveal-delay:150ms]">
             <SlideCarousel
               slides={slides}
               fallback={
