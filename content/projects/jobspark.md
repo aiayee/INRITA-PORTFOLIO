@@ -5,6 +5,20 @@ type: academic
 period: "2025 – 2026"
 stack: [MySQL, Go, Flutter, Next.js]
 order: 2
+cover: /images/projects/jobspark/slide-01.webp
+images:
+  - { src: /images/projects/jobspark/slide-01.webp, alt: "JobSpark slide 1: JobSpark — title slide", caption: "JobSpark — title slide" }
+  - { src: /images/projects/jobspark/slide-02.webp, alt: "JobSpark slide 2: Concept & objective", caption: "Concept & objective" }
+  - { src: /images/projects/jobspark/slide-03.webp, alt: "JobSpark slide 3: Pain points: students and companies", caption: "Pain points: students and companies" }
+  - { src: /images/projects/jobspark/slide-04.webp, alt: "JobSpark slide 4: Our solution", caption: "Our solution" }
+  - { src: /images/projects/jobspark/slide-05.webp, alt: "JobSpark slide 5: Student feature: swipe to match jobs", caption: "Student feature: swipe to match jobs" }
+  - { src: /images/projects/jobspark/slide-06.webp, alt: "JobSpark slide 6: Student feature: job application & tracking", caption: "Student feature: job application & tracking" }
+  - { src: /images/projects/jobspark/slide-07.webp, alt: "JobSpark slide 7: Student feature: auto resume generator", caption: "Student feature: auto resume generator" }
+  - { src: /images/projects/jobspark/slide-08.webp, alt: "JobSpark slide 8: Company feature: post jobs & manage applicants", caption: "Company feature: post jobs & manage applicants" }
+  - { src: /images/projects/jobspark/slide-09.webp, alt: "JobSpark slide 9: Company feature: talent pool & company profile", caption: "Company feature: talent pool & company profile" }
+  - { src: /images/projects/jobspark/slide-10.webp, alt: "JobSpark slide 10: Company feature: real-time notifications", caption: "Company feature: real-time notifications" }
+  - { src: /images/projects/jobspark/slide-11.webp, alt: "JobSpark slide 11: System architecture", caption: "System architecture" }
+  - { src: /images/projects/jobspark/slide-12.webp, alt: "JobSpark slide 12: Tech stack", caption: "Tech stack" }
 ---
 
 ## Business Context

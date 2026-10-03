@@ -266,3 +266,7 @@ details[open] .chevron { transform: rotate(180deg); }
 .xp-more { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
 html.js .xp-more:not(.is-open) { grid-template-rows: 0fr; }
 html:not(.js) .xp-toggle { display: none; }
+
+/* Slide carousel: autoplay progress bar */
+@keyframes slide-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.slide-progress { animation: slide-progress linear forwards; }
