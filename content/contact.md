@@ -1,9 +1,8 @@
 ---
-# TODO: replace with real contact details. Everything here is PUBLIC.
-email: "name@example.com"
-phone: "+66 8X XXX XXXX"
-lineId: "your-line-id"
+email: "inrita.2004@gmail.com"
+phone: "(095) 869-1650"
+lineId: "inrita.2004"
 city: "Bangkok, Thailand"
-linkedin: "https://www.linkedin.com/in/your-profile"
+linkedin: "https://www.linkedin.com/in/inrita-warajirawiroj"
 github: "https://github.com/aiayee"
 ---

@@ -1,16 +1,13 @@
 ---
-# TODO: replace every value below with real information.
-nameEn: "Firstname Lastname"
-nameTh: "ชื่อ นามสกุล"
-nickname: "Nickname"
+nameEn: "Inrita Warajirawiroj"
+nameTh: "อินริตา วราจิรวิโรจน์"
+nickname: "Inrita"
 title: "Data Engineer"
-tagline: "I build reliable data pipelines that turn raw data into business-ready insights."
-photo: "/images/profile.svg"   # replace with e.g. /images/profile.jpg (square, ≥ 400×400)
-resume: "/resume.pdf"          # put the real English resume at public/resume.pdf
+tagline: "I build reliable, scalable batch data pipelines and turn raw data into business-ready insights."
+photo: "/images/profile.png"
+resume: "/resume.pdf"
 ---
 
-TODO: Write the long About text here. Who you are, how you got into data
-engineering, what kind of problems you enjoy solving, and what you are
-interested in learning next.
+Data Engineer with nearly 2 years of hands-on experience building and operating batch data pipelines in the retail sector. Develops PySpark and Airflow pipelines on Huawei Cloud, monitoring 25+ production DAGs and delivering curated POS data from 62 stores to Retail, Data Science, and business teams. 
 
-You can use several paragraphs and **Markdown** formatting.
+Skilled in Python, SQL, data integration, data quality validation, and production deployment, with hands-on experience in platform upgrades and cloud migration to Kubernetes (CCE).

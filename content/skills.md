@@ -1,32 +1,45 @@
 ---
-# icon = slug from https://simpleicons.org (optional). Unknown slugs show as text only.
 categories:
-  - name: Languages
-    items:
-      - { name: Python, icon: python }
-      - { name: SQL }
-  - name: Data Processing
-    items:
-      - { name: Apache Spark, icon: apachespark }
-      - { name: dbt, icon: dbt }
-  - name: Orchestration
+  - name: Data Engineering
     items:
       - { name: Apache Airflow, icon: apacheairflow }
-  - name: Cloud
+      - { name: Apache Spark (PySpark), icon: apachespark }
+      - { name: Airbyte, icon: airbyte }
+      - { name: ETL/ELT Pipeline Design }
+      - { name: Data Ingestion & Integration }
+  - name: Programming & Query
     items:
-      - { name: Google Cloud, icon: googlecloud }
-  - name: Database & Warehouse
+      - { name: Python, icon: python }
+      - { name: SQL, icon: postgresql }
+  - name: Databases & Warehouses
     items:
+      - { name: Microsoft SQL Server, icon: microsoftsqlserver }
       - { name: PostgreSQL, icon: postgresql }
-      - { name: BigQuery, icon: googlebigquery }
-  - name: Tools
+      - { name: MySQL, icon: mysql }
+      - { name: MongoDB, icon: mongodb }
+  - name: Data Quality & Privacy
     items:
-      - { name: Git, icon: git }
+      - { name: Source-to-Target Validation }
+      - { name: NULL & Duplicate Checks }
+      - { name: Data Type Validation }
+      - { name: PII Encryption & Hashing (AES-256/SHA-256) }
+      - { name: Pipeline Monitoring }
+  - name: Cloud & DevOps
+    items:
+      - { name: Huawei Cloud (ECS, CCE, OBS) }
       - { name: Docker, icon: docker }
-  - name: Soft Skills
+      - { name: Jenkins, icon: jenkins }
+      - { name: GitLab CI/CD, icon: gitlab }
+      - { name: REST API Integration }
+  - name: Data Visualization
     items:
-      - { name: "TODO: Soft skill 1" }
-      - { name: "TODO: Soft skill 2" }
-      - { name: "TODO: Soft skill 3" }
+      - { name: Power BI, icon: powerbi }
+      - { name: Power Query }
+      - { name: Apache Superset }
+  - name: AI & Productivity
+    items:
+      - { name: GitHub Copilot, icon: githubcopilot }
+      - { name: ChatGPT, icon: openai }
+      - { name: Claude, icon: anthropic }
+      - { name: Technical Communication & Problem-solving }
 ---
-TODO: replace the example skills above with the real ones.

@@ -1,8 +1,8 @@
 ---
-degree: "Bachelor's Degree"              # TODO e.g. "B.Eng."
-university: "TODO University Name"
-faculty: "TODO Faculty"
-major: "TODO Major"
-graduationYear: 2023                     # TODO
-gpa: 3.00                                # TODO
+degree: "Bachelor of Science (Second Class Honours)"
+university: "King Mongkut's University of Technology Thonburi"
+faculty: "School of Information Technology"
+major: "Information Technology"
+graduationYear: 2025
+gpa: 3.28
 ---
