@@ -96,3 +96,19 @@ npm run check   # ตรวจแบบเดียวกับ CI
 **รูปสไลด์ในหน้า Case Study**
 - รูปใน `images:` ของแต่ละโปรเจกต์จะแสดงเป็นสไลด์เลื่อนได้ทางขวาของหน้า Case Study
 - แนะนำให้ Export สไลด์พรีเซนต์เป็น PNG/JPG แนวนอน 16:9 แล้วใส่ตามลำดับ
+
+## Case Study รูปแบบใหม่ (อัปเดต 2026-10-04)
+
+- หัวข้อที่**ต้องมี**: `## Business Context` และ `## My Role` ส่วนหัวข้ออื่นใส่หรือไม่ใส่ก็ได้ เช่น `## Key Responsibilities`, `## Business Value`, `## Lessons Learned`
+- ใช้ `### หัวข้อย่อย` แบ่งกลุ่มได้ภายในแต่ละหัวข้อ (เช่น Key Responsibilities ของ POS)
+- `role:` บทบาทในโปรเจกต์ (ไม่บังคับ) และ `period:` ไม่ใส่ก็ได้
+- **แผนภาพ Data Flow** ใส่ใน `flows:` หนึ่งบรรทัดต่อหนึ่ง flow เขียนแต่ละขั้นเป็นข้อความ ถ้ามีหมายเหตุให้คั่นด้วย `|`
+  ```yaml
+  flowTitle: "Data Pipeline"
+  flows:
+    - ["POS Source Systems", "MSSQL | 106 tables", "Airbyte", "DWS"]
+    - ["DWS", "CSV Export", "SharePoint"]
+  ```
+- หน้าแรกจะแยกโปรเจกต์ตาม `type:` อัตโนมัติ: `work` อยู่ใน **Selected Work Projects** (`order` ที่น้อยที่สุดเป็นการ์ด Featured) ส่วน `academic`/`side` อยู่ใน **Academic & Side Projects**
+- ชื่อโปรเจกต์ที่มี ` — ` จะแสดงเป็น 2 บรรทัดบนการ์ด เช่น "Retail POS Sales — End-to-End Data Pipeline"
+- Experience: แสดงหน้าที่หลักครบ 5 ข้อแรก (ข้อที่ 6 ขึ้นไปอยู่ใน "View details") และถ้ามี `relatedProjects` จะมีลิงก์ "Selected Work Projects →"

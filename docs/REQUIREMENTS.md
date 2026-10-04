@@ -470,3 +470,15 @@ public/
 | 7 | Education ย้ายไปอยู่ในการ์ด About (ไม่มีส่วนแยกแล้ว) | ✅ ทำแล้ว |
 | 8 | ธีมมืดเป็นค่าเริ่มต้น (แทน "ตามการตั้งค่าอุปกรณ์") ยังสลับเป็นสว่างได้และจำค่าไว้ | ✅ ทำแล้ว |
 | 9 | ฟอนต์ Plus Jakarta Sans (แทน Inter) | 💡 ทำแล้ว |
+
+### 2026-10-04 — Change Request #6 (ตามไฟล์ Project.docx)
+| # | Requirement | สถานะ |
+|---|---|---|
+| 1 | เปลี่ยน Resume เป็นไฟล์ใหม่ (`Inrita_Warajirawiroj_Data Engineer.pdf`) | ✅ ทำแล้ว |
+| 2 | Experience (Outsourced) เหลือ 5 ข้อ + ลิงก์ "Selected Work Projects →" | ✅ ทำแล้ว |
+| 3 | Projects แยกเป็น Selected Work Projects (POS = Featured, E-Coupon, Event Registration, Tourist) และ Academic & Side Projects | ✅ ทำแล้ว |
+| 4 | Case Study ใหม่ 3 เรื่อง + เขียน POS ใหม่ (Business Context / My Role / Key Responsibilities / Business Value) | ✅ ทำแล้ว |
+| 5 | แผนภาพ Data Flow ในหน้า Case Study ของงาน — **ยกเลิกข้อห้ามเดิมเรื่อง Architecture Diagram** ตามที่ผู้ใช้ขอในไฟล์ | ✅ ทำแล้ว |
+| 6 | หัวข้อบังคับของ Case Study เหลือ Business Context + My Role | ✅ ทำแล้ว |
+| 7 | ข้อ "Reduced dependency on manual data preparation…" ของ POS ไม่ได้ใส่ เพราะไฟล์ระบุว่าให้ตัดถ้าไม่แน่ใจ | 🟡 รอผู้ใช้ยืนยัน |
+| 8 | ช่วงเวลาของ E-Coupon / Event Registration / Tourist ไม่มีในไฟล์ จึงยังไม่แสดง | 🟡 Pending |

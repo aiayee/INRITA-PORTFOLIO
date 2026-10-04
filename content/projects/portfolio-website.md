@@ -4,7 +4,7 @@ summary: "A static, content-driven portfolio where every section is generated fr
 type: side
 period: "2026"
 stack: [Next.js, TypeScript, Tailwind CSS, Zod, GitHub Actions, GitHub Pages]
-order: 3
+order: 6
 github: https://github.com/aiayee/INRITA-PORTFOLIO
 ---
 

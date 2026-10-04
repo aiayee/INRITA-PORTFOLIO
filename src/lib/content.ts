@@ -100,8 +100,12 @@ const projectSchema = z.object({
   title: text,
   summary: text,
   type: z.enum(["work", "academic", "side"]),
-  period: text,
+  period: z.string().optional(),
+  role: z.string().optional(), // e.g. "Lead Data Engineer / Project Owner"
   stack,
+  // Data flow diagram(s): each flow is a list of steps, "Label | note" per step.
+  flowTitle: z.string().default("Data Flow"),
+  flows: z.array(z.array(text).min(2, "a flow needs at least 2 steps")).default([]),
   order: z.number().int(),
   // Card + case-study header image. Without it the card uses the first gallery
   // image, and otherwise a generated cover (see ProjectCover).
@@ -210,13 +214,9 @@ export type Project = z.infer<typeof projectSchema> & {
 };
 export type Certificate = z.infer<typeof certificateSchema> & { id: string };
 
-export const CASE_STUDY_SECTIONS = [
-  "Business Context",
-  "My Role",
-  "Approach",
-  "Results",
-  "Lessons Learned",
-] as const;
+// Headings every case study must have; any other "## " sections are optional
+// (Approach, Key Responsibilities, Results, Business Value, Lessons Learned…).
+export const CASE_STUDY_SECTIONS = ["Business Context", "My Role"] as const;
 
 export function getProfile(): Profile {
   const file = path.join(CONTENT_DIR, "profile.md");
@@ -242,7 +242,7 @@ export function getSoftSkills(): string[] {
   return parse(skillsSchema, file, readFile(file).data).softSkills;
 }
 
-const VISIBLE_BULLETS = 3;
+const VISIBLE_BULLETS = 5;
 
 /** Splits a Markdown list into the first few bullets and the rest. */
 function splitBullets(markdown: string): { highlights: string; more: string } {

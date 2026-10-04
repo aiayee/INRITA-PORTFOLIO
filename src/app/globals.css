@@ -270,3 +270,10 @@ html:not(.js) .xp-toggle { display: none; }
 /* Slide carousel: autoplay progress bar */
 @keyframes slide-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .slide-progress { animation: slide-progress linear forwards; }
+
+/* Case-study data flow: steps pop in one after another, arrows nudge forward */
+@keyframes flow-pop { from { opacity: 0; transform: translateY(8px) scale(0.96); } }
+.flow-node { animation: flow-pop 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@keyframes flow-nudge { 50% { transform: translateX(3px); } }
+.flow-arrow { display: grid; place-items: center; padding: 0.35rem; }
+@media (min-width: 640px) { .flow-arrow svg { animation: flow-nudge 1.6s ease-in-out infinite; } }

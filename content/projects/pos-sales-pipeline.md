@@ -1,35 +1,45 @@
 ---
-title: "End-to-End Retail POS Sales & Data Ingestion Pipeline"
-summary: "Ingested 106 MSSQL tables and 10,000+ daily transactions across 62 retail stores using PySpark and Airflow on Huawei Cloud."
+title: "Retail POS Sales — End-to-End Data Pipeline"
+summary: "Built and maintained an end-to-end data pipeline to ingest and transform POS sales data from 62 retail stores, prepare curated datasets for operational reporting, and deliver data to Retail teams through dashboards and CSV exports."
 type: work
-period: "Jul 2025 – Present"
-stack: [Python, PySpark, Apache Airflow, Airbyte, MSSQL, Huawei Cloud, Docker, Kubernetes, Power BI, Apache Superset]
+period: "Nov 2025 – Sep 2026"
+role: "Data Engineer"
+stack: [MSSQL, Stored Procedures, Airbyte, PySpark, Apache Airflow, SQL, Apache Superset, SharePoint, Huawei Cloud]
 order: 1
+flowTitle: "Data Pipeline"
+flows:
+  - ["POS Source Systems", "MSSQL | 106 tables", "Stored Procedures", "Airbyte", "PySpark Transformation", "DWS", "Curated Data", "Apache Superset | Operational reports", "Retail Team"]
+  - ["Curated Data", "CSV Export", "SharePoint", "Retail Team"]
 ---
 
 ## Business Context
 
-Retail, Data Science, and business teams required automated, daily delivery of consolidated POS sales transactions, E-Coupon usage, and Event Registrations across 62 retail stores. Manually retrieving and validating sales data from multiple source databases was prone to delay and inconsistencies.
+Retail teams need timely and reliable sales data to monitor daily sales performance across multiple stores. POS data is generated from multiple source tables and needs to be integrated, transformed, and prepared before it can be used for operational reporting and analysis.
 
 ## My Role
 
-Lead Data Engineer for POS pipeline development and data ingestion projects. Owned end-to-end stored procedure ingestion, PySpark transformation workflows, Airbyte connector setups, PII data encryption, data quality validation, and cloud migration to Kubernetes (CCE).
+Worked as a Data Engineer responsible for developing and supporting the POS data pipeline, from source data ingestion and transformation to reporting and data delivery. Collaborated with the Retail team to understand reporting requirements, troubleshoot data issues, and support additional data requirements.
 
-## Approach
+## Key Responsibilities
 
-- **Data Ingestion & Transformation**: Built pipelines ingesting 106 MSSQL tables into DWS via stored procedures and transformed 10,000+ daily transactions with PySpark into curated datasets.
-- **Airbyte Ingestion**: Set up Airbyte pipelines for E-Coupon and Event Registration data ingestion.
-- **Orchestration & Quality**: Managed 25+ daily/weekly production Airflow DAGs. Implemented SQL-based data quality checks (source-to-target counts, NULL/duplicate checks, type validations).
-- **Security & Cloud Migration**: Applied AES-256 encryption and SHA-256 hashing to protect sensitive customer PII. Successfully migrated 7 pipelines from ECS to CCE (Kubernetes) and validated DWS 9.0 to 9.1.0 upgrades in QA with zero discrepancies.
-- **BI & Delivery**: Built Apache Superset operational reports and Power BI dashboards, and automated CSV data exports to SharePoint.
+### Data Ingestion & Transformation
 
-## Results
+- Ingested data from 106 MSSQL tables into DWS through stored procedures.
+- Transformed 10,000+ daily transactions from 62 stores using PySpark.
+- Prepared curated datasets for Retail operational reporting.
 
-- Delivered zero-discrepancy daily sales data across 62 retail stores to business and data science teams within SLA.
-- Resolved production incidents (avg. ~2/month) quickly to maintain high data reliability and pipeline uptime.
-- Seamlessly completed cloud infrastructure upgrades (CCE migration & DWS upgrades) without downstream reporting impact.
+### Reporting & Data Delivery
 
-## Lessons Learned
+- Developed operational reports using Apache Superset and SQL.
+- Exported processed data as CSV files to SharePoint for Retail team usage.
+- Supported Retail users with data issues, questions, and additional reporting requirements.
 
-- Rigorous QA validation (source-to-target record verification) is crucial when executing cloud platform migrations or data warehouse upgrades.
-- Automated PII protection at the ingestion layer ensures privacy compliance across downstream reporting environments.
+### Data Quality & Operations
+
+- Performed source-to-target data validation and investigated data discrepancies.
+- Monitored and supported production data pipelines to ensure reliable data delivery.
+
+## Business Value
+
+- Enabled Retail teams to access consolidated sales data for daily operational reporting.
+- Supported Retail users with reliable data for monitoring sales performance across 62 stores.

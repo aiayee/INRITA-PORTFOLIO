@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FlowDiagram } from "@/components/FlowDiagram";
 import { ProjectCover } from "@/components/ProjectCover";
 import { PROJECT_TYPE } from "@/components/sections";
 import { SkillIcon } from "@/components/SkillIcon";
@@ -29,6 +30,9 @@ const SECTION_ICON: Record<string, string> = {
   "My Role": "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0",
   Approach: "M4 6h16M4 12h10M4 18h6",
   Results: "M5 13l4 4L19 7",
+  "Business Value": "M3 17l6-6 4 4 8-8M15 7h6v6",
+  "Key Responsibilities": "M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01",
+  flow: "M4 7h10M4 17h16M14 3l4 4-4 4",
   "Lessons Learned": "M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19l1-5.8L3.5 9.2l5.9-.9z",
 };
 
@@ -43,12 +47,19 @@ export default async function CaseStudyPage({ params }: Props) {
   const next = projects[i + 1];
   const slides = project.images.map((img) => ({ ...img, src: asset(img.src) }));
 
-  // "Approach" (usually long) spans the full width; the other cards pair up,
-  // and an unpaired last card stretches so the grid has no hole.
+  // Cards: long sections span the full width, the rest pair up, and an
+  // unpaired last card stretches so the grid has no hole. The data-flow
+  // diagram sits right after "My Role".
+  const LONG = new Set(["Approach", "Key Responsibilities"]);
   const wide = new Set<number>();
   const paired: number[] = [];
-  project.sections.forEach((s, n) => (s.title === "Approach" ? wide.add(n) : paired.push(n)));
-  if (paired.length % 2 === 1) wide.add(paired[paired.length - 1]);
+  project.sections.forEach((s, n) => (LONG.has(s.title) || s.html.length > 900 ? wide.add(n) : paired.push(n)));
+  const roleAt = project.sections.findIndex((s) => s.title === "My Role");
+  const splitAt = roleAt === -1 ? 0 : roleAt + 1;
+  const pairedBefore = paired.filter((n) => n < splitAt);
+  const pairedAfter = paired.filter((n) => n >= splitAt);
+  if (pairedBefore.length % 2 === 1) wide.add(pairedBefore[pairedBefore.length - 1]);
+  if (pairedAfter.length % 2 === 1) wide.add(pairedAfter[pairedAfter.length - 1]);
 
   return (
     <article className="relative overflow-hidden">
@@ -82,11 +93,17 @@ export default async function CaseStudyPage({ params }: Props) {
           <div className="hero-in min-w-0">
             <p className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted sm:text-sm">
               <span className="rounded-full bg-accent-soft px-3 py-1 text-accent-soft-fg">{PROJECT_TYPE[project.type]}</span>
-              <span>{project.period}</span>
+              {project.period && <span>{project.period}</span>}
             </p>
             <h1 className="mt-5 text-4xl leading-[1.08] font-extrabold tracking-tight sm:text-5xl">{project.title}</h1>
             <div aria-hidden="true" className="mt-5 h-1 w-24 rounded-full bg-gradient-to-r from-accent to-transparent" />
             <p className="mt-6 text-lg leading-relaxed text-muted">{project.summary}</p>
+            {project.role && (
+              <p className="mt-4 text-sm">
+                <span className="font-mono text-xs tracking-[0.12em] text-muted uppercase">Role · </span>
+                <span className="font-semibold">{project.role}</span>
+              </p>
+            )}
 
             <dl className="mt-8 grid grid-cols-2 gap-3 sm:max-w-md">
               <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4">
@@ -164,7 +181,40 @@ export default async function CaseStudyPage({ params }: Props) {
 
         {/* case study sections as cards */}
         <div className="mt-16 grid gap-5 md:grid-cols-2">
-          {project.sections.map((s, n) => (
+          {project.sections.map((s, n) => n < splitAt && (
+            <section
+              key={s.title}
+              {...reveal(n)}
+              aria-labelledby={`cs-${n}`}
+              className={`rounded-3xl border border-border bg-surface p-6 sm:p-8 ${wide.has(n) ? "md:col-span-2" : ""}`}
+            >
+              <h2 id={`cs-${n}`} className="flex items-center gap-3 text-xl font-bold">
+                <span className="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent-soft-fg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={SECTION_ICON[s.title] ?? "M12 12h.01"} />
+                  </svg>
+                </span>
+                {s.title}
+              </h2>
+              <div className="xp-bullets prose-content mt-5" dangerouslySetInnerHTML={{ __html: s.html }} />
+            </section>
+          ))}
+          {project.flows.length > 0 && (
+            <section {...reveal()} aria-labelledby="cs-flow" className="rounded-3xl border border-border bg-surface p-6 sm:p-8 md:col-span-2">
+              <h2 id="cs-flow" className="flex items-center gap-3 text-xl font-bold">
+                <span className="grid size-10 place-items-center rounded-xl bg-accent-soft text-accent-soft-fg" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={SECTION_ICON.flow} />
+                  </svg>
+                </span>
+                {project.flowTitle}
+              </h2>
+              <div className="mt-6">
+                <FlowDiagram flows={project.flows} />
+              </div>
+            </section>
+          )}
+          {project.sections.map((s, n) => n >= splitAt && (
             <section
               key={s.title}
               {...reveal(n)}

@@ -4,7 +4,7 @@ summary: "Capstone project involving relational database design (15 normalized t
 type: academic
 period: "2025 – 2026"
 stack: [MySQL, Go, Flutter, Next.js]
-order: 2
+order: 5
 cover: /images/projects/jobspark/slide-01.webp
 images:
   - { src: /images/projects/jobspark/slide-01.webp, alt: "JobSpark slide 1: JobSpark — title slide", caption: "JobSpark — title slide" }

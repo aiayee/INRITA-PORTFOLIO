@@ -291,7 +291,6 @@ export function ExperienceSection({ items, projects }: { items: Experience[]; pr
       />
       <ol className="timeline relative grid gap-6 pl-10 sm:pl-14">
         {items.map((exp, i) => {
-          const hasMore = Boolean(exp.moreHtml) || exp.relatedProjects.length > 0;
           return (
             <li key={exp.id} {...reveal(i + 1)} className="relative">
               <span
@@ -316,20 +315,21 @@ export function ExperienceSection({ items, projects }: { items: Experience[]; pr
 
                 <div className="xp-bullets prose-content mt-5" dangerouslySetInnerHTML={{ __html: exp.highlightsHtml }} />
 
-                {hasMore && (
+                {exp.moreHtml && (
                   <MoreDetails>
                     {/* continues the list above — no box, same bullets */}
-                    {exp.moreHtml && <div className="xp-bullets prose-content pt-1.5" dangerouslySetInnerHTML={{ __html: exp.moreHtml }} />}
-                    {exp.relatedProjects.length > 0 && (
-                      <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm">
-                        {exp.relatedProjects.map((slug) => (
-                          <Link key={slug} href={`/projects/${slug}/`} className="font-semibold text-accent hover:underline">
-                            Case study: {titleOf.get(slug)} →
-                          </Link>
-                        ))}
-                      </p>
-                    )}
+                    <div className="xp-bullets prose-content pt-1.5" dangerouslySetInnerHTML={{ __html: exp.moreHtml }} />
                   </MoreDetails>
+                )}
+
+                {exp.relatedProjects.length > 0 && (
+                  <a
+                    href="#projects"
+                    title={exp.relatedProjects.map((slug) => titleOf.get(slug)).join(", ")}
+                    className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-accent hover:underline"
+                  >
+                    Selected Work Projects <span aria-hidden="true">→</span>
+                  </a>
                 )}
 
                 <div className="mt-5">
@@ -354,64 +354,101 @@ export const PROJECT_TYPE: Record<Project["type"], string> = {
   side: "Side Project",
 };
 
+/** "Retail POS Sales — End-to-End Data Pipeline" → ["Retail POS Sales", "End-to-End Data Pipeline"] */
+function splitTitle(title: string): [string, string?] {
+  const [main, ...rest] = title.split(/\s+[—–]\s+/);
+  return [main, rest.join(" — ") || undefined];
+}
+
+function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }) {
+  const [main, sub] = splitTitle(p.title);
+  return (
+    <Link
+      href={`/projects/${p.slug}/`}
+      className={`group grid h-full overflow-hidden rounded-3xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_30px_60px_-30px_rgba(124,58,237,0.55)] ${
+        featured ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]" : "grid-rows-[auto_1fr]"
+      }`}
+    >
+      <div className={`overflow-hidden border-border bg-surface-2 ${featured ? "aspect-video border-b lg:aspect-auto lg:border-r lg:border-b-0" : "aspect-video border-b"}`}>
+        {p.cover || p.images[0] ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={asset(p.cover ?? p.images[0].src)}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={640}
+            height={360}
+            className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+          />
+        ) : (
+          <ProjectCover slug={p.slug} stack={p.stack} label={p.title} className="size-full transition-transform duration-500 group-hover:scale-[1.05]" />
+        )}
+      </div>
+      <div className={`flex flex-col ${featured ? "p-6 sm:p-10" : "p-6"}`}>
+        <p className="flex items-center justify-between gap-2 font-mono text-xs tracking-[0.12em] text-muted uppercase">
+          <span className="text-accent">{featured ? `${PROJECT_TYPE[p.type]} · Featured` : PROJECT_TYPE[p.type]}</span>
+          {p.period && <span className="tracking-normal normal-case">{p.period}</span>}
+        </p>
+        <h3 className={`mt-3 leading-tight font-extrabold transition-colors group-hover:text-accent ${featured ? "text-3xl" : "text-xl"}`}>
+          {main}
+          {sub && <span className={`mt-1 block font-semibold text-muted ${featured ? "text-xl" : "text-base"}`}>{sub}</span>}
+        </h3>
+        {featured && <p className="mt-4 leading-relaxed text-muted">{p.summary}</p>}
+        <p className="mt-4 flex-1 font-mono text-[0.8rem] leading-relaxed text-fg/80">{p.stack.slice(0, featured ? 9 : 5).join(" · ")}</p>
+        <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
+          Read case study
+          <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">
+            →
+          </span>
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export function ProjectsSection({ projects }: { projects: Project[] }) {
+  const work = projects.filter((p) => p.type === "work");
+  const other = projects.filter((p) => p.type !== "work");
+  const [featured, ...restWork] = work;
+
   return (
     <Shell id="projects">
       <Head
         id="projects"
-        eyebrow="Selected work"
-        title="Projects"
-        aside="Each case study covers the business problem, my role, the results and what I learned."
+        eyebrow="Projects"
+        title="Selected Work Projects"
+        aside="Each case study covers the business context, my role, the data flow and what I delivered."
       />
-      <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p, i) => (
-          <li key={p.slug} {...reveal(i + 1)}>
-            <Link
-              href={`/projects/${p.slug}/`}
-              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_30px_60px_-30px_rgba(124,58,237,0.55)]"
-            >
-              <div className="aspect-video overflow-hidden border-b border-border bg-surface-2">
-                {p.cover || p.images[0] ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={asset(p.cover ?? p.images[0].src)}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    width={640}
-                    height={360}
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-                  />
-                ) : (
-                  <ProjectCover
-                    slug={p.slug}
-                    stack={p.stack}
-                    label={p.title}
-                    className="size-full transition-transform duration-500 group-hover:scale-[1.05]"
-                  />
-                )}
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <p className="flex items-center justify-between gap-2 font-mono text-xs text-muted">
-                  <span className="text-accent">{PROJECT_TYPE[p.type]}</span>
-                  <span>{p.period}</span>
-                </p>
-                <h3 className="mt-3 text-lg leading-snug font-bold transition-colors group-hover:text-accent">{p.title}</h3>
-                <p className="mt-2 line-clamp-3 flex-1 text-sm leading-relaxed text-muted">{p.summary}</p>
-                <div className="mt-5">
-                  <TagList items={p.stack.slice(0, 4)} label="Tech stack" />
-                </div>
-                <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-accent">
-                  Read case study
-                  <span aria-hidden="true" className="inline-block transition-transform group-hover:translate-x-1">
-                    →
-                  </span>
-                </span>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {featured && (
+        <div {...reveal(1)}>
+          <ProjectCard p={featured} featured />
+        </div>
+      )}
+      {restWork.length > 0 && (
+        <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {restWork.map((p, i) => (
+            <li key={p.slug} {...reveal(i + 2)}>
+              <ProjectCard p={p} />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {other.length > 0 && (
+        <>
+          <h3 {...reveal()} className="mt-20 mb-8 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Academic &amp; Side Projects
+          </h3>
+          <ul className="grid gap-6 sm:grid-cols-2">
+            {other.map((p, i) => (
+              <li key={p.slug} {...reveal(i + 1)}>
+                <ProjectCard p={p} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </Shell>
   );
 }
