@@ -9,7 +9,8 @@ stack: [Python, PySpark, Apache Airflow, Airbyte, MSSQL, Huawei Cloud, Docker, K
 relatedProjects: [pos-sales-pipeline, e-coupon, event-registration]
 ---
 - Built and maintained batch data pipelines using Apache Airflow, PySpark, Airbyte, SQL, and MSSQL to support Retail and business data delivery.
-- Developed end-to-end data solutions from source ingestion and transformation to curated datasets, operational reports, and downstream data delivery.
-- Led data ingestion projects for E-Coupon and Event Registration systems, working with Application and Data Science teams to understand data flows and support downstream data usage.
-- Implemented data quality checks and production monitoring, and supported pipeline troubleshooting, QA validation, and production deployment.
-- Supported DWS upgrades, ECS-to-CCE migration, and reporting solutions using Apache Superset and Power BI.
+- Built an end-to-end POS data pipeline across 106 MSSQL tables, processing 10,000+ daily transactions from 62 stores into curated datasets for Retail reporting.
+- Led data ingestion projects for E-Coupon and Event Registration systems, collaborating with Application and Data Science teams to understand data flows, validate data quality, and support downstream data usage.
+- Monitored 25+ production Airflow DAGs, implemented SQL-based data quality checks, and supported QA validation, troubleshooting, and production deployments.
+- Migrated 7 pipelines from ECS to CCE, reducing execution time from 2 hours to 10 minutes (~92% reduction).
+- Developed operational reports and dashboards using Apache Superset as an alternative to Power BI, supporting business teams with data reporting and contributing to approximately THB 2M in avoided Power BI licensing costs.

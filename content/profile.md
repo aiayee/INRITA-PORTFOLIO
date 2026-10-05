@@ -1,6 +1,6 @@
 ---
 nameEn: "Inrita Warajirawiroj"
-nameTh: "อินริตา วราจิรวิโรจน์"
+nameTh: "อินทร์ริตา วราจิรวิโรจน์"
 nickname: "Inrita"
 title: "Data Engineer"
 tagline: "I build reliable, scalable batch data pipelines and turn raw data into business-ready insights."

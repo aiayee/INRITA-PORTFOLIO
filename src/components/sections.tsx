@@ -12,7 +12,6 @@ import type {
 import { asset } from "@/lib/paths";
 import { ContactIcon, type ContactKind } from "./ContactIcon";
 import { CopyButton } from "./CopyButton";
-import { MoreDetails } from "./MoreDetails";
 import { OrgLogo } from "./OrgLogo";
 import { ProjectCover } from "./ProjectCover";
 import { RoleTyper } from "./RoleTyper";
@@ -313,14 +312,7 @@ export function ExperienceSection({ items, projects }: { items: Experience[]; pr
                   </div>
                 </div>
 
-                <div className="xp-bullets prose-content mt-5" dangerouslySetInnerHTML={{ __html: exp.highlightsHtml }} />
-
-                {exp.moreHtml && (
-                  <MoreDetails>
-                    {/* continues the list above — no box, same bullets */}
-                    <div className="xp-bullets prose-content pt-1.5" dangerouslySetInnerHTML={{ __html: exp.moreHtml }} />
-                  </MoreDetails>
-                )}
+                <div className="xp-bullets prose-content mt-5" dangerouslySetInnerHTML={{ __html: exp.bodyHtml }} />
 
                 {exp.relatedProjects.length > 0 && (
                   <a
