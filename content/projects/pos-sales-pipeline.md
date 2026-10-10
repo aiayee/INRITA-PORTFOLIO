@@ -6,6 +6,14 @@ period: "Nov 2025 – Sep 2026"
 role: "Data Engineer"
 stack: [MSSQL, Stored Procedures, Airbyte, PySpark, Apache Airflow, SQL, Apache Superset, SharePoint, Huawei Cloud]
 order: 1
+cover: "/images/projects/pos-sales-pipeline/business-flow.png"
+images:
+  - src: "/images/projects/pos-sales-pipeline/business-flow.png"
+    alt: "Retail POS Sales Business Flow — From Store Transactions to Actionable Insights"
+    caption: "Business Flow — From store transactions across 62 stores to operational reports"
+  - src: "/images/projects/pos-sales-pipeline/technical-architecture.png"
+    alt: "Retail POS Sales Technical Architecture — End-to-End Data Pipeline"
+    caption: "Technical Architecture — Detailed Airflow, Airbyte, PySpark, DWS & Superset pipeline"
 flowTitle: "Data Pipeline"
 flows:
   - ["POS Source Systems", "MSSQL | 106 tables", "Stored Procedures", "Airbyte", "PySpark Transformation", "DWS", "Curated Data", "Apache Superset | Operational reports", "Retail Team"]

@@ -358,24 +358,11 @@ function ProjectCard({ p, featured = false }: { p: Project; featured?: boolean }
     <Link
       href={`/projects/${p.slug}/`}
       className={`group grid h-full overflow-hidden rounded-3xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/60 hover:shadow-[0_30px_60px_-30px_rgba(124,58,237,0.55)] ${
-        featured ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]" : "grid-rows-[auto_1fr]"
+        featured ? "lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center" : "grid-rows-[auto_1fr]"
       }`}
     >
-      <div className={`overflow-hidden border-border bg-surface-2 ${featured ? "aspect-video border-b lg:aspect-auto lg:border-r lg:border-b-0" : "aspect-video border-b"}`}>
-        {p.cover || p.images[0] ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={asset(p.cover ?? p.images[0].src)}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            width={640}
-            height={360}
-            className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-          />
-        ) : (
-          <ProjectCover slug={p.slug} stack={p.stack} label={p.title} className="size-full transition-transform duration-500 group-hover:scale-[1.05]" />
-        )}
+      <div className={`overflow-hidden border-border bg-surface-2 ${featured ? "aspect-[3/2] w-full border-b lg:border-r lg:border-b-0" : "aspect-video w-full border-b"}`}>
+        <ProjectCover slug={p.slug} stack={p.stack} label={p.title} className="size-full transition-transform duration-500 group-hover:scale-[1.05]" />
       </div>
       <div className={`flex flex-col ${featured ? "p-6 sm:p-10" : "p-6"}`}>
         <p className="flex items-center justify-between gap-2 font-mono text-xs tracking-[0.12em] text-muted uppercase">

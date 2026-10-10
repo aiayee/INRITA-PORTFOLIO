@@ -88,7 +88,7 @@ export default async function CaseStudyPage({ params }: Props) {
           </ol>
         </nav>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-14">
+        <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-12 lg:items-start">
           {/* left: intro */}
           <div className="hero-in min-w-0">
             <p className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted sm:text-sm">

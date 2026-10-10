@@ -6,6 +6,11 @@ period: "2026"
 stack: [Next.js, TypeScript, Tailwind CSS, Zod, GitHub Actions, GitHub Pages]
 order: 6
 github: https://github.com/aiayee/INRITA-PORTFOLIO
+cover: /images/projects/portfolio/portfolio-home.png
+images:
+  - src: /images/projects/portfolio/portfolio-home.png
+    alt: "Portfolio Website — Homepage screenshot"
+    caption: "Homepage — Hero, About, Experience, Projects, Skills & Contact"
 ---
 
 ## Business Context

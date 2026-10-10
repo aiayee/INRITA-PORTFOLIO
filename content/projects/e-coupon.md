@@ -5,6 +5,20 @@ type: work
 role: "Lead Data Engineer / Project Owner"
 stack: [Airbyte, Apache Airflow, SQL, DWS, Apache Superset]
 order: 2
+cover: /images/projects/e-coupon/customer-journey.png
+images:
+  - src: /images/projects/e-coupon/customer-journey.png
+    alt: "E-Coupon System Customer Journey"
+    caption: "Customer Journey — Coupon redemption and usage flow"
+  - src: /images/projects/e-coupon/technical-architecture.png
+    alt: "E-Coupon System Technical Architecture"
+    caption: "Technical Architecture — Airbyte ingestion to DWS and Superset"
+  - src: /images/projects/e-coupon/dashboard-journey.png
+    alt: "E-Coupon Dashboard Journey"
+    caption: "Dashboard Journey — Reporting and metric tracking workflow"
+  - src: /images/projects/e-coupon/dashboard-sample.png
+    alt: "E-Coupon Apache Superset Dashboard"
+    caption: "Operational Dashboard — Coupon redemption & campaign analytics in Superset"
 flows:
   - ["E-Coupon System", "Source Data", "Airbyte", "Airflow", "DWS", "Data Science", "Analysis"]
   - ["DWS", "SQL", "Apache Superset", "Business / Data Owner"]

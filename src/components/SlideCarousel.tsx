@@ -14,6 +14,7 @@ const AUTOPLAY_MS = 4000;
  */
 export function SlideCarousel({ slides, fallback }: { slides: Slide[]; fallback?: ReactNode }) {
   const [index, setIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState<string>("16/9");
   const [playing, setPlaying] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [zoomed, setZoomed] = useState(false);
@@ -24,6 +25,24 @@ export function SlideCarousel({ slides, fallback }: { slides: Slide[]; fallback?
   const count = slides.length;
 
   const go = useCallback((i: number) => setIndex(((i % count) + count) % count), [count]);
+
+  // Dynamically match container aspect ratio to the active slide's natural dimensions
+  useEffect(() => {
+    const currentSrc = slides[index]?.src;
+    if (!currentSrc || typeof window === "undefined") return;
+    const img = new window.Image();
+    img.src = currentSrc;
+    const updateRatio = () => {
+      if (img.naturalWidth && img.naturalHeight) {
+        setAspectRatio(`${img.naturalWidth} / ${img.naturalHeight}`);
+      }
+    };
+    if (img.complete) {
+      updateRatio();
+    } else {
+      img.onload = updateRatio;
+    }
+  }, [index, slides]);
 
   // Reduced motion: never start autoplay.
   useEffect(() => {
@@ -94,7 +113,8 @@ export function SlideCarousel({ slides, fallback }: { slides: Slide[]; fallback?
             else setZoomed(true);
           }}
           aria-label={`View slide ${index + 1} full screen`}
-          className="group relative block aspect-video w-full cursor-zoom-in"
+          style={{ aspectRatio }}
+          className="group relative block w-full cursor-zoom-in transition-[aspect-ratio] duration-300"
         >
           {slides.map((s, i) => (
             // eslint-disable-next-line @next/next/no-img-element
@@ -106,7 +126,7 @@ export function SlideCarousel({ slides, fallback }: { slides: Slide[]; fallback?
               loading={i === 0 ? "eager" : "lazy"}
               decoding="async"
               draggable={false}
-              className={`absolute inset-0 size-full object-contain transition-opacity duration-700 ${i === index ? "opacity-100" : "opacity-0"}`}
+              className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${i === index ? "opacity-100" : "opacity-0"}`}
             />
           ))}
           <span className="absolute right-3 bottom-3 grid size-11 place-items-center rounded-full bg-black/55 text-white backdrop-blur-sm transition-transform group-hover:scale-110">
@@ -163,12 +183,13 @@ export function SlideCarousel({ slides, fallback }: { slides: Slide[]; fallback?
                 onClick={() => go(i)}
                 aria-label={`Show slide ${i + 1}${s.caption ? `: ${s.caption}` : ""}`}
                 aria-current={i === index ? "true" : undefined}
+                style={{ aspectRatio }}
                 className={`w-[calc(25%-0.375rem)] min-w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all ${
                   i === index ? "border-accent" : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.src} alt="" decoding="async" draggable={false} className="aspect-video w-full object-cover" />
+                <img src={s.src} alt="" decoding="async" draggable={false} className="size-full object-cover" />
               </button>
             ))}
           </div>
