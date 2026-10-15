@@ -19,9 +19,6 @@ images:
   - src: /images/projects/e-coupon/dashboard-sample.png
     alt: "E-Coupon Apache Superset Dashboard"
     caption: "Operational Dashboard — Coupon redemption & campaign analytics in Superset"
-flows:
-  - ["E-Coupon System", "Source Data", "Airbyte", "Airflow", "DWS", "Data Science", "Analysis"]
-  - ["DWS", "SQL", "Apache Superset", "Business / Data Owner"]
 ---
 
 ## Business Context

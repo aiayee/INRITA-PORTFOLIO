@@ -5,8 +5,14 @@ type: work
 role: "Lead Data Engineer / Project Owner"
 stack: [Airbyte, Apache Airflow, DWS]
 order: 3
-flows:
-  - ["Event Registration System", "Source", "Airbyte", "Airflow", "DWS", "Data Science", "Analysis"]
+cover: /images/projects/event-registration/business-flow.png
+images:
+  - src: /images/projects/event-registration/business-flow.png
+    alt: "Event Registration System Business Flow"
+    caption: "Business Flow — Two registration flows supporting online registration and pre-registration with on-site check-in"
+  - src: /images/projects/event-registration/technical-architecture.png
+    alt: "Event Registration Technical Architecture"
+    caption: "Technical Architecture — End-to-end data pipeline from registration channels to DWS and Analytics"
 ---
 
 ## Business Context

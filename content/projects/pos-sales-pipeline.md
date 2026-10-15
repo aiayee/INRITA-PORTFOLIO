@@ -14,10 +14,6 @@ images:
   - src: "/images/projects/pos-sales-pipeline/technical-architecture.png"
     alt: "Retail POS Sales Technical Architecture — End-to-End Data Pipeline"
     caption: "Technical Architecture — Detailed Airflow, Airbyte, PySpark, DWS & Superset pipeline"
-flowTitle: "Data Pipeline"
-flows:
-  - ["POS Source Systems", "MSSQL | 106 tables", "Stored Procedures", "Airbyte", "PySpark Transformation", "DWS", "Curated Data", "Apache Superset | Operational reports", "Retail Team"]
-  - ["Curated Data", "CSV Export", "SharePoint", "Retail Team"]
 ---
 
 ## Business Context

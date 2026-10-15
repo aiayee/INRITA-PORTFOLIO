@@ -31,7 +31,13 @@ export function ProjectCover({
   const gid = `cover-${slug}`;
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className={className} role="img" aria-label={`${label} illustration`}>
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      preserveAspectRatio="xMidYMid slice"
+      className={className}
+      role="img"
+      aria-label={`${label} illustration`}
+    >
       <defs>
         <linearGradient id={`${gid}-bg`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="var(--accent-soft)" />
@@ -49,35 +55,37 @@ export function ProjectCover({
       <rect width={W} height={H} fill={`url(#${gid}-glow)`} />
       <rect width={W} height={H} fill={`url(#${gid}-dots)`} />
 
-      {points.slice(1).map((p, i) => {
-        const a = points[i];
-        const mid = (a.x + p.x) / 2;
-        const d = `M${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${p.y}, ${p.x} ${p.y}`;
-        return (
-          <g key={p.name}>
-            <path className="flow-line" d={d} fill="none" stroke="var(--accent)" strokeWidth="3" strokeDasharray="8 8" opacity="0.6" />
-            {/* a "record" travelling down the pipeline */}
-            <circle className="flow-dot" r="6" fill="var(--accent)">
-              <animateMotion dur="2.4s" begin={`-${i * 0.8}s`} repeatCount="indefinite" path={d} />
-            </circle>
-          </g>
-        );
-      })}
+      <g transform={`translate(${W / 2} ${H / 2}) scale(0.78) translate(-${W / 2} -${H / 2})`}>
+        {points.slice(1).map((p, i) => {
+          const a = points[i];
+          const mid = (a.x + p.x) / 2;
+          const d = `M${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${p.y}, ${p.x} ${p.y}`;
+          return (
+            <g key={p.name}>
+              <path className="flow-line" d={d} fill="none" stroke="var(--accent)" strokeWidth="3" strokeDasharray="8 8" opacity="0.6" />
+              {/* a "record" travelling down the pipeline */}
+              <circle className="flow-dot" r="6" fill="var(--accent)">
+                <animateMotion dur="2.4s" begin={`-${i * 0.8}s`} repeatCount="indefinite" path={d} />
+              </circle>
+            </g>
+          );
+        })}
 
-      {points.map((p) => (
-        <g key={p.name} transform={`translate(${p.x - 44} ${p.y - 44})`}>
-          <rect width="88" height="88" rx="22" fill="var(--bg)" stroke="var(--accent)" strokeOpacity="0.45" strokeWidth="2" />
-          {p.icon ? (
-            <svg x="24" y="24" width="40" height="40" viewBox="0 0 24 24">
-              <path d={p.icon.path} fill="var(--accent)" />
-            </svg>
-          ) : (
-            <text x="44" y="52" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="22" fontWeight="700" fill="var(--accent)">
-              {p.name.slice(0, 3)}
-            </text>
-          )}
-        </g>
-      ))}
+        {points.map((p) => (
+          <g key={p.name} transform={`translate(${p.x - 44} ${p.y - 44})`}>
+            <rect width="88" height="88" rx="22" fill="var(--bg)" stroke="var(--accent)" strokeOpacity="0.45" strokeWidth="2" />
+            {p.icon ? (
+              <svg x="24" y="24" width="40" height="40" viewBox="0 0 24 24">
+                <path d={p.icon.path} fill="var(--accent)" />
+              </svg>
+            ) : (
+              <text x="44" y="52" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="22" fontWeight="700" fill="var(--accent)">
+                {p.name.slice(0, 3)}
+              </text>
+            )}
+          </g>
+        ))}
+      </g>
     </svg>
   );
 }

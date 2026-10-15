@@ -4,6 +4,11 @@ summary: "Developed an Apache Superset dashboard to provide Tourism teams with i
 type: work
 stack: [SQL, Apache Superset]
 order: 4
+cover: /images/projects/tourist/dashboard-journey.png
+images:
+  - src: /images/projects/tourist/dashboard-journey.png
+    alt: "Tourist x E-Coupon Dashboard Journey — From Tourist Interactions to Actionable Insights"
+    caption: "Dashboard Journey — End-to-end tourist journey connecting registration, engagement, coupons, and spending"
 ---
 
 ## Business Context
